@@ -54,7 +54,7 @@ async function userLogin(req,res){
         return res.status(200).json({ message: "logic successfully" , token, findUser : {
             id : findUser._id ,
             userName : findUser.userName,
-            password : findUser.password
+            password : findUser.email
         }
         })
 

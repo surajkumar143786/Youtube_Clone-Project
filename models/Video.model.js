@@ -15,7 +15,7 @@ const videoSchema = new mongoose.Schema(
           "type": String,
           "required": true, // PDF explicitly allows storing video URL
       },
-      thumnailUrl :{
+      thumbnailUrl :{
           "type": String,
           "required": true,
       },
