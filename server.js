@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js';
-import registerRouter from './routes/auth.route.js';
+import {loginRouter, registerRouter} from './routes/auth.route.js';
+import './config/env.js'
 
 dotenv.config();
 
@@ -15,7 +16,11 @@ connectDB()
 app.use(cors())
 app.use(express.json())
 
+//register
 app.use('/api',registerRouter)
+
+//login
+app.use('/api',loginRouter)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,()=>{
