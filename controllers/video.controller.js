@@ -37,4 +37,32 @@ try{
 }
 
 }
-export default addVideo;
+//add search and filter in video
+async function getVideo(req,res){
+   try {const { search, category } = req.query;
+    // We create a dynamic filter object depending on what user sends
+    let filter = {}
+
+    //search by title(case sensitive)
+    if(search){
+        filter.title = ({$regex : search , $options : "i"})
+    }
+    // Filter by category
+    if(category){
+        filter.category = category;
+    }
+
+    // Fetch videos from DB
+    const videos = await Video.find(filter)
+    .populate("channel" , "channelName")
+    .populate("uploader" , "userName")
+    .sort({ createdAt: -1 }); // Latest videos first
+     
+       return res.status(200).json({ count: videos.length ,videos})
+}catch(err){
+    return res.status(500).json({message : "server error while fetch videos",err:err.message})
+}
+}
+
+
+export  {addVideo,getVideo};
