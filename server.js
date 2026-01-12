@@ -2,12 +2,11 @@ import express from 'express';
 import cors from 'cors'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js';
-import {loginRouter, registerRouter} from './routes/auth.route.js';
 import './config/env.js'
 import channelCreateRouter from './routes/channel.route.js';
-import addVideoRouter from './routes/video.route.js';
-
-
+import videoRouter from './routes/video.route.js';
+import commentRouter from './routes/comment.route.js';
+import authRouter from './routes/auth.route.js';
 
 
 dotenv.config();
@@ -27,17 +26,18 @@ app.post("/test-body", (req, res) => {
     res.json(req.body);
 });
 
-//register
-app.use('/api',registerRouter)
-
-//login
-app.use('/api',loginRouter)
+//auth (register and login)
+app.use('/api/auth',authRouter)
 
 //create channel
-app.use('/api',channelCreateRouter)
+app.use('/api/channels',channelCreateRouter)
 
-//addVideo
-app.use('/api',addVideoRouter)
+//getVideo &//add video
+app.use('/api/videos',videoRouter)
+
+//comment router
+app.use('/api/comments',commentRouter)
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,()=>{

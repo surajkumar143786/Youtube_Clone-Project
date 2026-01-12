@@ -2,12 +2,13 @@ import express from 'express'
 import {addVideo, getVideo} from '../controllers/video.controller.js';
 import protect from '../middleware/auth.middleware.js';
 
+
+const videoRouter = express.Router();
+
 //route for addVideo
-const addVideoRouter = express.Router();
-addVideoRouter.post('/videos',protect,addVideo)
+videoRouter.post('/',protect,addVideo)
 
 //route for getVideo
-const getVideoRouter = express.Router()
-getVideoRouter.get('/getvideo',getVideo)
+videoRouter.get('/',getVideo)
 
-export  {addVideoRouter,getVideoRouter};
+export default videoRouter
