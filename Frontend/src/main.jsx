@@ -8,6 +8,7 @@ import SignIn from './components/SignIn.jsx'
 import Offer from './components/Offer.jsx'
 import Error from './components/Error.jsx'
 import VideoPlayer from './components/VideoPlayer.jsx'
+import ChannelPage from './components/ChannelPage.jsx'
 
 
 /*
@@ -40,6 +41,10 @@ const appRouter = createBrowserRouter([
       {
         path : "/watch/:id",
         element : <VideoPlayer/>
+      },
+      {
+        path : "/channel",
+        element : <ChannelPage/>
       }
     ]
     
