@@ -7,6 +7,7 @@ import Help from './components/Help.jsx'
 import SignIn from './components/SignIn.jsx'
 import Offer from './components/Offer.jsx'
 import Error from './components/Error.jsx'
+import VideoPlayer from './components/VideoPlayer.jsx'
 
 
 /*
@@ -36,6 +37,10 @@ const appRouter = createBrowserRouter([
         path : "/signin",
         element : <SignIn/>
       },
+      {
+        path : "/watch/:id",
+        element : <VideoPlayer/>
+      }
     ]
     
   },

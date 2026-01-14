@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router-dom";
+
 function VideoCard({video}){
+   const naviagate = useNavigate()
     return(
-       <div className="w-72 cursor-pointer">
+      
+       <div onClick={()=> naviagate(`/watch/${video.id}`)} className="w-72 cursor-pointer">
           {/* thumbnail */}
           <img
              src={video.thumbnail}
