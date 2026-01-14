@@ -13,6 +13,7 @@ import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import CreateChannel from './components/CreateChannel.jsx'
+import AddVideo from './components/AddVideo.jsx'
 
 
 /*
@@ -66,6 +67,14 @@ const appRouter = createBrowserRouter([
         element : <ProtectedRoute>
           <CreateChannel/>
         </ProtectedRoute>
+      },
+      {
+        path: "/add-video",
+        element: (
+          <ProtectedRoute>
+            <AddVideo />
+          </ProtectedRoute>
+        )
       }
       
     ]
