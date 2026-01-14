@@ -27,13 +27,13 @@ function Register() {
             <h1 className="text-2xl font-bold mb-4 text-center">Create Account</h1>
 
             {/* Username Input */}
-            <input type="text"placeholder="Username" value = {formData.userName} onChange={handleChange} className="w-full mb-3 px-3 py-2 border rounded-lg outline-none"/>
+            <input type="text" name="userName" placeholder="Username" value = {formData.userName} onChange={handleChange} className="w-full mb-3 px-3 py-2 border rounded-lg outline-none"/>
 
             {/* Email Input */}
-            <input type="email"placeholder="Email" value={formData.email} onChange={handleChange} className="w-full mb-3 px-3 py-2 border rounded-lg outline-none"/>
+            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full mb-3 px-3 py-2 border rounded-lg outline-none"/>
 
             {/* Password Input */}
-            <input type="password"placeholder="Password" value={formData.password} onChange={handleChange} className="w-full mb-4 px-3 py-2 border rounded-lg outline-none"/>
+            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full mb-4 px-3 py-2 border rounded-lg outline-none"/>
 
             {/* Register Button */}
             <button onClick={handleRegister} className="w-full py-2 bg-green-600 text-white rounded-lg">Register</button>
