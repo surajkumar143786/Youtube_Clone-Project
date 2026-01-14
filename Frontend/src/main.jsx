@@ -12,6 +12,7 @@ import ChannelPage from './components/ChannelPage.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import CreateChannel from './components/CreateChannel.jsx'
 
 
 /*
@@ -60,6 +61,12 @@ const appRouter = createBrowserRouter([
         path : '/register',
         element : <Register/>
       },
+      {
+        path : '/create-channel',
+        element : <ProtectedRoute>
+          <CreateChannel/>
+        </ProtectedRoute>
+      }
       
     ]
     
