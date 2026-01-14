@@ -11,6 +11,7 @@ import VideoPlayer from './components/VideoPlayer.jsx'
 import ChannelPage from './components/ChannelPage.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 
 /*
@@ -45,8 +46,11 @@ const appRouter = createBrowserRouter([
         element : <VideoPlayer/>
       },
       {
-        path : "/channel",
-        element : <ChannelPage/>
+        path: '/channel',
+        element: <ProtectedRoute>
+          <ChannelPage />
+        </ProtectedRoute>
+
       },
       {
         path : "/login",
@@ -56,6 +60,7 @@ const appRouter = createBrowserRouter([
         path : '/register',
         element : <Register/>
       },
+      
     ]
     
   },
