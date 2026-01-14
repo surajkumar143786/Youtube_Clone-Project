@@ -1,12 +1,12 @@
 function VideoCard({video}){
     return(
-       <div className="w-full cursor-pointer">
+       <div className="w-72 cursor-pointer">
           {/* thumbnail */}
-       <img
-        src={video.thumbnail}
-        alt=" video thumbnail"
-        className="w-full rounded-lg"
-       />
+          <img
+             src={video.thumbnail}
+             alt="video thumbnail"
+             className="w-full h-54 object-cover rounded-lg"
+          />
 
        {/* video info */}
         <div className="mt-2">
