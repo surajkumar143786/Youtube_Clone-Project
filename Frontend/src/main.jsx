@@ -9,6 +9,8 @@ import Offer from './components/Offer.jsx'
 import Error from './components/Error.jsx'
 import VideoPlayer from './components/VideoPlayer.jsx'
 import ChannelPage from './components/ChannelPage.jsx'
+import Login from './components/Login.jsx'
+import Register from './components/Register.jsx'
 
 
 /*
@@ -45,7 +47,15 @@ const appRouter = createBrowserRouter([
       {
         path : "/channel",
         element : <ChannelPage/>
-      }
+      },
+      {
+        path : "/login",
+        element : <Login/>
+      },
+      {
+        path : '/register',
+        element : <Register/>
+      },
     ]
     
   },

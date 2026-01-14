@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
     const [searchText,setSearchText] = useState("")
+    const navigate = useNavigate()
     return (
+
         <header className="flex items-center justify-between px-4 py-2 border-b">
 
             {/* Logo */}
@@ -26,7 +29,7 @@ function Header() {
             </div>
 
             {/* Sign In Button */}
-            <button className="px-4 py-1 border rounded-full text-blue-600 font-medium">
+            <button onClick={()=>navigate('/login')} className="px-4 py-1 border rounded-full text-blue-600 font-medium">
                 Sign In
             </button>
 
