@@ -1,44 +1,101 @@
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { getComments, addComment } from "../services/commentService";
 
-/*VideoPlayer Component -- Displays a single video page*/
 function VideoPlayer() {
     const { id } = useParams();
+
+    const [video, setVideo] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [commentText, setCommentText] = useState("");
+
+    // Fetch video
+    useEffect(() => {
+        async function fetchVideo() {
+            const response = await axios.get(
+                `http://localhost:5000/api/videos/${id}`
+            );
+            setVideo(response.data.video);
+        }
+
+        fetchVideo();
+    }, [id]);
+
+    // Fetch comments
+    useEffect(() => {
+        async function fetchComments() {
+            const data = await getComments(id);
+            setComments(data);
+        }
+
+        fetchComments();
+    }, [id]);
+
+    async function handleAddComment() {
+        if (!commentText) return;
+
+        await addComment(id, commentText);
+        setCommentText("");
+
+        const updatedComments = await getComments(id);
+        setComments(updatedComments);
+    }
+
+    if (!video) {
+        return <p className="text-center mt-10">Loading...</p>;
+    }
 
     return (
         <div className="max-w-4xl mx-auto">
 
-            {/* Video Player */}
-            <video controls className="w-full rounded-lg mb-4">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4"type="video/mp4"/>
-            </video>
+            <video
+                controls
+                className="w-full rounded-lg mb-4"
+                src={video.videoUrl}
+            />
 
-            {/* Video Title */}
-            <h1 className="text-xl font-bold mb-1">Learn React in 30 Minutes</h1>
+            <h1 className="text-xl font-bold mb-1">
+                {video.title}
+            </h1>
 
-            {/* Video Meta */}
-            <p className="text-gray-600 text-sm mb-3">15K views • Channel: Code with Suraj</p>
+            <p className="text-gray-600 text-sm mb-3">
+                {video.views} views • {video.channel?.channelName}
+            </p>
 
-            {/* Like / Dislike Buttons */}
-            <div className="flex gap-4 mb-6">
-                <button className="px-4 py-1 border rounded-lg">👍 Like</button>
-                <button className="px-4 py-1 border rounded-lg">👎 Dislike</button>
-            </div>
+            <p className="text-sm mb-6">
+                {video.description}
+            </p>
 
-            {/* Description */}
-            <p className="text-sm mb-6">This video explains the basics of React in a simple and easy way.</p>
-
-            {/* Comments Section */}
+            {/* COMMENTS */}
             <div>
                 <h2 className="font-semibold mb-3">Comments</h2>
 
-                {/* Add Comment UI */}
-                <input type="text"placeholder="Add a comment..."className="w-full px-3 py-2 border rounded-lg mb-4"/>
+                <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg mb-3"
+                />
 
-                {/* Static Comment */}
-                <div className="border-b pb-2 mb-2">
-                    <p className="font-medium text-sm">Virat Kohli</p>
-                    <p className="text-sm text-gray-700">Great video! Very helpful.</p>
-                </div>
+                <button
+                    onClick={handleAddComment}
+                    className="px-4 py-1 border rounded-lg mb-4"
+                >
+                    Comment
+                </button>
+
+                {comments.map((comment) => (
+                    <div key={comment._id} className="border-b pb-2 mb-2">
+                        <p className="font-medium text-sm">
+                            {comment.user?.userName}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                            {comment.text}
+                        </p>
+                    </div>
+                ))}
             </div>
 
         </div>
