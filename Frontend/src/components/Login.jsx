@@ -1,51 +1,106 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
+import { useAuth } from "../assets/context/AuthContext";
 
-/*Login Component -- Displays login form UI*/
+/*
+  Login Component
+  - Handles user login
+  - Updates AuthContext
+  - Redirects to home after success
+*/
 function Login() {
-    //// Stores login form data
-    const [formData,setFormData] = useState({
+    const [formData, setFormData] = useState({
         email: "",
-        password:"",
-    })
-    //Updates form data when user types
-    function handleChange(e){
+        password: "",
+    });
+
+    const navigate = useNavigate();
+    const { login } = useAuth(); // 👈 MOST IMPORTANT
+
+    // Updates form data
+    function handleChange(e) {
         setFormData({
-            ...formData,[e.target.name]:e.target.value
-        })
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     }
-    //Sends login request to backend -- Stores JWT token on success
-    async function handleLogin(){
-        try{
-            const data = await loginUser(formData)
-            // Save token in localStorage
-            localStorage.setItem("token",data.token)
-            alert("login successful")
-        }catch(err){
-            alert(err.response?.data?.message || "login failed")
+
+    // Sends login request to backend
+    async function handleLogin(e) {
+        e.preventDefault();
+
+        try {
+            const data = await loginUser(formData);
+
+            /*
+              EXPECTED backend response:
+              {
+                token: "...",
+                user: { username, email, ... }
+              }
+            */
+
+            // 👇 THIS FIXES EVERYTHING
+            login(data); // sets user + token in context
+
+            alert("Login successful");
+
+            // 👇 redirect to videos page
+            navigate("/");
+        } catch (err) {
+            alert(err.response?.data?.message || "login failed");
         }
     }
-    
+
     return (
         <div className="max-w-md mx-auto mt-10 border rounded-lg p-6">
+            <h1 className="text-2xl font-bold mb-4 text-center">
+                Sign In
+            </h1>
 
-            <h1 className="text-2xl font-bold mb-4 text-center">Sign In</h1>
+            <form onSubmit={handleLogin}>
+                {/* Email */}
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full mb-3 px-3 py-2 border rounded-lg outline-none"
+                    required
+                />
 
-            {/* Email Input */}
-            <input
-                type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange}  className="w-full mb-3 px-3 py-2 border rounded-lg outline-none"/>
+                {/* Password */}
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full mb-4 px-3 py-2 border rounded-lg outline-none"
+                    required
+                />
 
-            {/* Password Input */}
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full mb-4 px-3 py-2 border rounded-lg outline-none"/>
+                {/* Submit */}
+                <button
+                    type="submit"
+                    className="w-full py-2 bg-blue-600 text-white rounded-lg"
+                >
+                    Sign In
+                </button>
+            </form>
 
-            {/* Sign In Button */}
-            <button onClick={handleLogin} className="w-full py-2 bg-blue-600 text-white rounded-lg">Sign In</button>
-
-            {/* Register Redirect */}
-            <p className="text-sm text-center mt-4">Don't have an account?{" "}
-                <span className="text-blue-600 cursor-pointer">Register</span>
+            {/* Register */}
+            <p className="text-sm text-center mt-4">
+                Don't have an account?{" "}
+                <span
+                    onClick={() => navigate("/register")}
+                    className="text-blue-600 cursor-pointer"
+                >
+                    Register
+                </span>
             </p>
-
         </div>
     );
 }
