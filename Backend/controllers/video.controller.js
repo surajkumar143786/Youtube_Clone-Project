@@ -64,5 +64,26 @@ async function getVideo(req,res){
 }
 }
 
+// GET SINGLE VIDEO BY ID
+async function getSingleVideo(req, res) {
+    try {
+        const video = await Video.findById(req.params.id)
+            .populate("channel", "channelName")
+            .populate("uploader", "userName");
 
-export  {addVideo,getVideo};
+        if (!video) {
+            return res.status(404).json({ message: "Video not found" });
+        }
+
+        return res.status(200).json(video);
+    } catch (err) {
+        return res.status(500).json({
+            message: "Server error while fetching video",
+            error: err.message,
+        });
+    }
+}
+
+
+
+export  {addVideo,getVideo, getSingleVideo};

@@ -38,23 +38,26 @@ async function userLogin(req,res){
         if (!email || !password) {
             return res.status(400).json({ message: " email and password are required" })
         }
-        //find user
-        const findUser = await User.findOne({ email })
-        if (!findUser) {
-            return res.status(400).json({ message: "invalid email or password" })
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({
+                message: "Invalid email or password",
+            });
         }
 
         //compare password
-        const isMatch = await findUser.comparePassword(password)
+        const isMatch = await user.comparePassword(password)
         if(!isMatch){
             return res.status(400).json({message : "invalid email or password"})
         }
     //generate token 
-        const token =generateToken(findUser._id)
-        return res.status(200).json({ message: "logic successfully" , token, findUser : {
-            id : findUser._id ,
-            userName : findUser.userName,
-            password : findUser.password
+        const token = generateToken(user._id)
+        return res.status(200).json({
+            message: "logic successfully", token, user : {
+            id: user._id ,
+            userName: user.userName,
+            password: user.password
         }
         })
 

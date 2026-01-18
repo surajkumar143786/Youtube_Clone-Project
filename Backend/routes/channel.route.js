@@ -1,8 +1,19 @@
-import express from 'express';
-import channelCreate from '../controllers/channel.controller.js';
-import protect from '../middleware/auth.middleware.js';
+import express from "express";
+import protect from "../middleware/auth.middleware.js";
+import channelController from "../controllers/channel.controller.js";
 
-const channelCreateRouter = express.Router()
-channelCreateRouter.post('/',protect,channelCreate)
+const router = express.Router();
 
-export default channelCreateRouter;
+/*
+  POST /api/channels
+  Create channel
+*/
+router.post("/", protect, channelController.channelCreate);
+
+/*
+  GET /api/channels/my
+  Get logged-in user's channel + videos
+*/
+router.get("/my", protect, channelController.getMyChannel);
+
+export default router;
